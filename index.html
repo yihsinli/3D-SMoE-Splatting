@@ -1,0 +1,822 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="3D SMoE Splatting">
+  <meta name="keywords" content="3D_SMoE_Splatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D_SMoE_Splatting</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css"/>
+
+  <style>
+    body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+        }
+
+    .video-compare-container {
+        position: relative;
+        width: 800px; /* Adjust as needed */
+        height: 500px;
+        overflow: hidden;
+        border: 2px solid #ccc;
+        margin-bottom: 40px;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .video-clipper {
+            position: absolute;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            width: 100%; /* Full width to prevent shifting */
+            height: 100%;
+            /* overflow: hidden; */
+        }
+
+        .video-clipper video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: inset(0 0 0 0);
+        }
+    
+    .slider-bar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 100%;
+        width: 2px;
+        background: rgb(255, 255, 255);
+        cursor: w-resize;
+        /* transform: translateX(-50%); */
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://3zadessg.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://3zadessg.github.io/LFSphereNet/LFSphereNet.html">
+            VAE_Compression
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">3D SMoE Splatting</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=7kJHUk8AAAAJ&hl=en">Yi-Hsin Li</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=wd32zLMAAAAJ&hl=en">Mårten Sjöström</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=dbKaezwAAAAJ&hl=en">Sabastian Knorr</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=EEMg1vMAAAAJ&hl=en">Thomas Sikora</a><sup>1</sup>,
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Technische Universität Berlin, Berlin, Germany</span>
+            <span class="author-block"><sup>2</sup>Mid Sweden University, Department of Computer and Electrical Engineering, Sundsvall, Sweden</span>
+          </div>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (coming soon)</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (coming soon)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data (coming soon)</span>
+                  </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/Ours_counter_3_view.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">VAE_LF_COMPRESSION
+      </h2>
+    </div>
+  </div>
+</section> -->
+
+<!-- <div class="video-row-wrapper">
+  <div class="content has-text-centered video-row">
+    <div class="image-comparison-wrapper" style="position: relative; width:400px; height: 300px;">
+      <p>InstantSplat 118MB</p>
+      <video poster="" id="epfl_fence" autoplay controls muted loop playsinline height="100%">
+        <source src="./static/videos/Ins_counter_3_views.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="image-comparison-wrapper" style="position: relative; width:400px; height: 300px;">
+      <p>Ours 54MB</p>
+      <video poster="" id="epfl_fence" autoplay controls muted loop playsinline height="100%">
+        <source src="./static/videos/Ours_counter_3_view.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div> -->
+<div class="video-row">
+  <div class="video-compare-container" id="vcompare1">
+    <video id='vs1' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.005/playroom-l.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip1">
+      <video id='vg1' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.005/playroom-l.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb1" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">Gaussian Splatting</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">SMoE Splatting</span>
+  </div>
+
+  <div class="video-compare-container" id="vcompare6">
+    <video id='vs6' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.0002/playroom-h.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip6">
+      <video id='vg6' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.0002/playroom-h.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb6" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">Gaussian Splatting 417MB</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">SMoE Splatting 315MB</span>
+  </div>
+</div>
+
+<div class="video-row">
+  <div class="video-compare-container" id="vcompare2">
+    <video id='vs2' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.005/truck-l.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip2">
+      <video id='vg2' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.005/truck-l.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb2" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">Gaussian Splatting</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">SMoE Splatting</span>
+  </div>
+
+  <div class="video-compare-container" id="vcompare7">
+    <video id='vs7' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.0002/truck-h.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip7">
+      <video id='vg7' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.0002/truck-h.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb7" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">Gaussian Splatting 467MB</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">SMoE Splatting 357MB</span>
+  </div>
+</div>
+
+<div class="video-row">
+  <div class="video-compare-container" id="vcompare3">
+    <video id='vs3' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.005/kitchen-l.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip3">
+      <video id='vg3' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.005/kitchen-l.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb3" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">Gaussian Splatting</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">SMoE Splatting</span>
+  </div>
+
+  <div class="video-compare-container" id="vcompare8">
+    <video id='vs8' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.0002/kitchen-h.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip8">
+      <video id='vg8' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.0002/kitchen-h.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb8" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">Gaussian Splatting 304MB</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">SMoE Splatting 171MB</span>
+  </div>
+</div>
+
+<div class="video-row">
+  <div class="video-compare-container" id="vcompare4">
+    <video id='vs4' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.005/bonsai-l.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip4">
+      <video id='vg4' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.005/bonsai-l.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb4" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">Gaussian Splatting</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">SMoE Splatting</span>
+  </div>
+
+  <div class="video-compare-container" id="vcompare9">
+    <video id='vs9' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.0002/bonsai-h.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip9">
+      <video id='vg9' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.0002/bonsai-h.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb9" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">Gaussian Splatting 232MB</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">SMoE Splatting 167MB</span>
+  </div>
+</div>
+
+
+<div class="video-row">
+  <div class="video-compare-container" id="vcompare5">
+    <video id='vs5' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.005/room-l.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip5">
+      <video id='vg5' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.005/room-l.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb5" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">Gaussian Splatting</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 10px;">SMoE Splatting</span>
+  </div>
+
+  <div class="video-compare-container" id="vcompare10">
+    <video id='vs10' loop autoplay onclick="video_click()">
+      <source src='SMoEOutput/th.0002/room-h.mp4'>
+    </video>
+    <div class="video-clipper" id="vclip10">
+      <video id='vg10' loop autoplay onclick="video_click()">
+        <source src='GSOutput/th.0002/room-h.mp4'>
+      </video>
+    </div>
+    <div class="slider-bar" id="sb10" loop autoplay onclick="video_click()"></div>
+    <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">Gaussian Splatting 272MB</span>
+    <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 10px 15px;">SMoE Splatting 205MB</span>
+  </div>
+</div>
+
+
+<script>
+  var vs1 = document.getElementById("vs1");
+  var vg1 = document.getElementById("vg1");
+  var vs2 = document.getElementById("vs2");
+  var vg2 = document.getElementById("vg2");
+  var vs3 = document.getElementById("vs3");
+  var vg3 = document.getElementById("vg3");
+  var vs4 = document.getElementById("vs4");
+  var vg4 = document.getElementById("vg4");
+  var vs5 = document.getElementById("vs5");
+  var vg5 = document.getElementById("vg5");
+  var vs6 = document.getElementById("vs6");
+  var vg6 = document.getElementById("vg6");
+  var vs7 = document.getElementById("vs7");
+  var vg7 = document.getElementById("vg7");
+  var vs8 = document.getElementById("vs8");
+  var vg8 = document.getElementById("vg8");
+  var vs9 = document.getElementById("vs9");
+  var vg9 = document.getElementById("vg9");
+  var vs10 = document.getElementById("vs10");
+  var vg10 = document.getElementById("vg10");
+
+  function video_click(e) {
+
+    var rect1 = document.getElementById("vcompare1").getBoundingClientRect();
+    var rect2 = document.getElementById("vcompare2").getBoundingClientRect();
+    var rect3 = document.getElementById("vcompare3").getBoundingClientRect();
+    var rect4 = document.getElementById("vcompare4").getBoundingClientRect();
+    var rect5 = document.getElementById("vcompare5").getBoundingClientRect();
+    var rect6 = document.getElementById("vcompare6").getBoundingClientRect();
+    var rect7 = document.getElementById("vcompare7").getBoundingClientRect();
+    var rect8 = document.getElementById("vcompare8").getBoundingClientRect();
+    var rect9 = document.getElementById("vcompare9").getBoundingClientRect();
+    var rect10 = document.getElementById("vcompare10").getBoundingClientRect();
+    
+    if (e.clientY >= rect1.top && e.clientY <= rect1.bottom && e.clientX >= rect1.left && e.clientX <= rect1.right) {
+      if (vs1.paused){
+        vs1.play();
+        vg1.play(); 
+      }
+      else{
+        vs1.pause();
+        vg1.pause();
+      }
+      vs1.currentTime=vg1.currentTime;
+      vg1.currentTime=vs1.currentTime;
+    }
+    else if (e.clientY >= rect2.top && e.clientY <= rect2.bottom && e.clientX >= rect2.left && e.clientX <= rect2.right) {
+      if (vs2.paused){
+        vs2.play();
+        vg2.play(); 
+      }
+      else{
+        vs2.pause();
+        vg2.pause();
+      }
+      vs2.currentTime=vg2.currentTime;
+      vg2.currentTime=vs2.currentTime;
+    }
+    else if (e.clientY >= rect3.top && e.clientY <= rect3.bottom && e.clientX >= rect3.left && e.clientX <= rect3.right) {
+      if (vs3.paused){
+        vs3.play();
+        vg3.play(); 
+      }
+      else{
+        vs3.pause();
+        vg3.pause();
+      }
+      vs3.currentTime=vg3.currentTime;
+      vg3.currentTime=vs3.currentTime;
+    }
+    else if (e.clientY >= rect4.top && e.clientY <= rect4.bottom && e.clientX >= rect4.left && e.clientX <= rect4.right) {
+      if (vs4.paused){
+        vs4.play();
+        vg4.play(); 
+      }
+      else{
+        vs4.pause();
+        vg4.pause();
+      }
+      vs4.currentTime=vg4.currentTime;
+      vg4.currentTime=vs4.currentTime;
+    }
+    else if (e.clientY >= rect5.top && e.clientY <= rect5.bottom && e.clientX >= rect5.left && e.clientX <= rect5.right) {
+      if (vs5.paused){
+        vs5.play();
+        vg5.play(); 
+      }
+      else{
+        vs5.pause();
+        vg5.pause();
+      }
+      vs5.currentTime=vg5.currentTime;
+      vg5.currentTime=vs5.currentTime;
+    }
+    else if (e.clientY >= rect6.top && e.clientY <= rect6.bottom && e.clientX >= rect6.left && e.clientX <= rect6.right) {
+      if (vs6.paused){
+        vs6.play();
+        vg6.play(); 
+      }
+      else{
+        vs6.pause();
+        vg6.pause();
+      }
+      vs6.currentTime=vg6.currentTime;
+      vg6.currentTime=vs6.currentTime;
+    }
+    else if (e.clientY >= rect7.top && e.clientY <= rect7.bottom && e.clientX >= rect7.left && e.clientX <= rect7.right) {
+      if (vs7.paused){
+        vs7.play();
+        vg7.play(); 
+      }
+      else{
+        vs7.pause();
+        vg7.pause();
+      }
+      vs7.currentTime=vg7.currentTime;
+      vg7.currentTime=vs7.currentTime;
+    }
+    else if (e.clientY >= rect8.top && e.clientY <= rect8.bottom && e.clientX >= rect8.left && e.clientX <= rect8.right) {
+      if (vs8.paused){
+        vs8.play();
+        vg8.play(); 
+      }
+      else{
+        vs8.pause();
+        vg8.pause();
+      }
+      vs8.currentTime=vg8.currentTime;
+      vg8.currentTime=vs8.currentTime;
+    }
+    else if (e.clientY >= rect9.top && e.clientY <= rect9.bottom && e.clientX >= rect9.left && e.clientX <= rect9.right) {
+      if (vs9.paused){
+        vs9.play();
+        vg9.play(); 
+      }
+      else{
+        vs9.pause();
+        vg9.pause();
+      }
+      vs9.currentTime=vg9.currentTime;
+      vg9.currentTime=vs9.currentTime;
+    }
+    else if (e.clientY >= rect10.top && e.clientY <= rect10.bottom && e.clientX >= rect10.left && e.clientX <= rect10.right) {
+      if (vs10.paused){
+        vs10.play();
+        vg10.play(); 
+      }
+      else{
+        vs10.pause();
+        vg10.pause();
+      }
+      vs10.currentTime=vg10.currentTime;
+      vg10.currentTime=vs10.currentTime;
+    }
+  }
+
+  //var videoContainer = document.getElementById("vcompare1"),
+  //    videoClipper = document.getElementById("vclip1");
+  // clippedVideo = document.getElementById("video-clipped");
+  //var slider = document.getElementById("sb1");//querySelector(".slider-bar");
+  
+
+  function trackLocation(e) {
+    //var videoContainer = document.getElementById("vcompare1"),
+    //    videoClipper = document.getElementById("vclip1"),
+    //    slider = document.querySelector(".slider-bar");
+    var rect1 = document.getElementById("vcompare1").getBoundingClientRect();
+    var rect2 = document.getElementById("vcompare2").getBoundingClientRect();
+    var rect3 = document.getElementById("vcompare3").getBoundingClientRect();
+    var rect4 = document.getElementById("vcompare4").getBoundingClientRect();
+    var rect5 = document.getElementById("vcompare5").getBoundingClientRect();
+    var rect6 = document.getElementById("vcompare6").getBoundingClientRect();
+    var rect7 = document.getElementById("vcompare7").getBoundingClientRect();
+    var rect8 = document.getElementById("vcompare8").getBoundingClientRect();
+    var rect9 = document.getElementById("vcompare9").getBoundingClientRect();
+    var rect10 = document.getElementById("vcompare10").getBoundingClientRect();
+    // position = ((e.pageX - rect.left) / videoContainer.offsetWidth) * 100;
+    
+
+    var position1 = ((e.clientX - rect1.left) / rect1.width) * 100;
+    var position2 = ((e.clientX - rect2.left) / rect2.width) * 100;
+    var position3 = ((e.clientX - rect3.left) / rect3.width) * 100;
+    var position4 = ((e.clientX - rect4.left) / rect4.width) * 100;
+    var position5 = ((e.clientX - rect5.left) / rect5.width) * 100;
+    var position6 = ((e.clientX - rect6.left) / rect6.width) * 100;
+    var position7 = ((e.clientX - rect7.left) / rect7.width) * 100;
+    var position8 = ((e.clientX - rect8.left) / rect8.width) * 100;
+    var position9 = ((e.clientX - rect9.left) / rect9.width) * 100;
+    var position10 = ((e.clientX - rect10.left) / rect10.width) * 100;
+    
+    if (e.clientY >= rect1.top && e.clientY <= rect1.bottom && e.clientX >= rect1.left && e.clientX <= rect1.right) {
+      position1 = Math.max(0, Math.min(100, position1)); // Clamp value between 0 and 100
+      document.getElementById("vclip1").style.clipPath = `inset(0 ${100 - position1}% 0 0)`;
+      document.getElementById("sb1").style.left = position1 + "%";
+    }
+    else if (e.clientY >= rect2.top && e.clientY <= rect2.bottom && e.clientX >= rect2.left && e.clientX <= rect2.right) {
+      position2 = Math.max(0, Math.min(100, position2)); // Clamp value between 0 and 100
+      document.getElementById("vclip2").style.clipPath = `inset(0 ${100 - position2}% 0 0)`;
+      document.getElementById("sb2").style.left = position2 + "%";
+    }
+    else if (e.clientY >= rect3.top && e.clientY <= rect3.bottom && e.clientX >= rect3.left && e.clientX <= rect3.right) {
+      position3 = Math.max(0, Math.min(100, position3)); // Clamp value between 0 and 100
+      document.getElementById("vclip3").style.clipPath = `inset(0 ${100 - position3}% 0 0)`;
+      document.getElementById("sb3").style.left = position3 + "%";
+    }
+    else if (e.clientY >= rect4.top && e.clientY <= rect4.bottom && e.clientX >= rect4.left && e.clientX <= rect4.right) {
+      position4 = Math.max(0, Math.min(100, position4)); // Clamp value between 0 and 100
+      document.getElementById("vclip4").style.clipPath = `inset(0 ${100 - position4}% 0 0)`;
+      document.getElementById("sb4").style.left = position4 + "%";
+    }
+    else if (e.clientY >= rect5.top && e.clientY <= rect5.bottom && e.clientX >= rect5.left && e.clientX <= rect5.right) {
+      position5 = Math.max(0, Math.min(100, position5)); // Clamp value between 0 and 100
+      document.getElementById("vclip5").style.clipPath = `inset(0 ${100 - position5}% 0 0)`;
+      document.getElementById("sb5").style.left = position5 + "%";
+    }
+    else if (e.clientY >= rect6.top && e.clientY <= rect6.bottom && e.clientX >= rect6.left && e.clientX <= rect6.right) {
+      position6 = Math.max(0, Math.min(100, position6)); // Clamp value between 0 and 100
+      document.getElementById("vclip6").style.clipPath = `inset(0 ${100 - position6}% 0 0)`;
+      document.getElementById("sb6").style.left = position6 + "%";
+    }
+    else if (e.clientY >= rect7.top && e.clientY <= rect7.bottom && e.clientX >= rect7.left && e.clientX <= rect7.right) {
+      position7 = Math.max(0, Math.min(100, position7)); // Clamp value between 0 and 100
+      document.getElementById("vclip7").style.clipPath = `inset(0 ${100 - position7}% 0 0)`;
+      document.getElementById("sb7").style.left = position7 + "%";
+    }
+    else if (e.clientY >= rect8.top && e.clientY <= rect8.bottom && e.clientX >= rect8.left && e.clientX <= rect8.right) {
+      position8 = Math.max(0, Math.min(100, position8)); // Clamp value between 0 and 100
+      document.getElementById("vclip8").style.clipPath = `inset(0 ${100 - position8}% 0 0)`;
+      document.getElementById("sb8").style.left = position8 + "%";
+    }
+    else if (e.clientY >= rect9.top && e.clientY <= rect9.bottom && e.clientX >= rect9.left && e.clientX <= rect9.right) {
+      position9 = Math.max(0, Math.min(100, position9)); // Clamp value between 0 and 100
+      document.getElementById("vclip9").style.clipPath = `inset(0 ${100 - position9}% 0 0)`;
+      document.getElementById("sb9").style.left = position9 + "%";
+    }
+    else if (e.clientY >= rect10.top && e.clientY <= rect10.bottom && e.clientX >= rect10.left && e.clientX <= rect10.right) {
+      position10 = Math.max(0, Math.min(100, position10)); // Clamp value between 0 and 100
+      document.getElementById("vclip10").style.clipPath = `inset(0 ${100 - position10}% 0 0)`;
+      document.getElementById("sb10").style.left = position10 + "%";
+    }
+    // // position1 = Math.max(0, Math.min(100, position1)); // Clamp value between 0 and 100
+    
+    // // document.getElementById("vclip1").style.clipPath = `inset(0 ${100 - position1}% 0 0)`;
+    // // document.getElementById("sb1").style.left = position1 + "%";
+
+    //clippedVideo.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
+    //videoClipper.style.width = position + "%";
+    //clippedVideo.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
+    // if (position <= 100) {
+    //   videoClipper.style.width = position + "%";
+    //   clippedVideo.style.width = ((100 / position) * 100) + "%";
+    //   clippedVideo.style.zIndex = 3;
+    // }
+  }
+  document.getElementById("vcompare1").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare1").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare1").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare2").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare2").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare2").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare3").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare3").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare3").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare4").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare4").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare4").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare5").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare5").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare5").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare6").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare6").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare6").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare7").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare7").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare7").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare8").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare8").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare8").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare9").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare9").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare9").addEventListener("touchmove", trackLocation, false);
+  document.getElementById("vcompare10").addEventListener("mousemove", trackLocation, false);
+  document.getElementById("vcompare10").addEventListener("touchstart", trackLocation, false);
+  document.getElementById("vcompare10").addEventListener("touchmove", trackLocation, false);
+  
+  document.addEventListener("click", video_click);
+</script>
+<!-- <div class="columns is-centered is-vcentered" style="justify-content: center; text-align: center;">
+  <div class="column is-narrow">
+      <label for="bitrateSlider">Select Bit Rate:</label>
+      <input type="range" id="bitrateSlider" min="1" max="4" value="1" step="1" oninput="updateBitrateValue(this.value); updateImages(this.value)">
+      <span id="bitrateValue">0.1</span>
+  </div>
+</div> -->
+
+
+
+<script>
+  function updateBitrateValue(value) {
+    // Map slider values to corresponding bitrates
+    const bitrates = {
+      1: 0.1,
+      2: 0.2,
+      3: 0.3,
+      4: 0.4
+    };
+    document.getElementById("bitrateValue").textContent = bitrates[value];
+  }
+</script>
+
+<!-- Visual Effects and Matting in Two Columns Per Row. -->
+<!-- <div class="columns is-centered" style="justify-content: center;"> -->
+  <!-- First Image Block - Bikes -->
+  <!-- <div class="column is-narrow">
+      <div class="content" style="text-align: center;">
+          <p>Train</p>
+          <div class="image-comparison-wrapper" style="position: relative; margin: 0 auto; width: 624px; height: 432px;">
+              <img-comparison-slider style="width: 100%; height: 100%;">
+                  <img id="bikesOurs" slot="first" src="./static/images/smoe_00024.png" />
+                  <img id="bikesGT" slot="second" src="./static/images/gs_00024.png" />
+              </img-comparison-slider>
+              <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 2px 5px;">Ours</span>
+              <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 2px 5px;">GS</span>
+              
+            </div>
+
+      </div>
+  </div> -->
+
+  <!-- Second Image Block - Bikes (Repeating) -->
+  <!-- <div class="column is-narrow">
+      <div class="content" style="text-align: center;">
+          <p>Truck</p>
+          <div class="image-comparison-wrapper" style="position: relative; margin: 0 auto; width: 624px; height: 432px;">
+              <img-comparison-slider style="width: 100%; height: 100%;">
+                  <img id="dangerOurs" slot="first" src="./static/images/smoe_00138.png" />
+                  <img id="dangerGT" slot="second" src="./static/images/gs_00138.png" />
+              </img-comparison-slider>
+              <span class="image-label" style="position: absolute; top: 10px; left: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 2px 5px;">Ours</span>
+              <span class="image-label" style="position: absolute; top: 10px; right: 10px; color: white; background: rgba(0, 0, 0, 0.5); padding: 2px 5px;">GS</span>
+          </div>
+      </div>
+  </div> -->
+<!-- </div> -->
+         
+        <!-- More columns for Fountain and Pillars as in your original code -->
+
+
+    
+    <style>
+      .video-row-wrapper {
+        padding-bottom: 50px; /* Space between each row of videos */
+      }
+    
+      .video-row {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+      }
+
+
+    </style>
+    
+
+    
+    <!-- First pair of images (Ours) -->
+
+    
+    <!-- Second pair of images (AdaMPI) -->
+ 
+    
+    <!-- Third pair of images (SinMPI) -->
+    
+
+
+
+
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{yihsin20253dsmoe,
+  author    = {Li, Yi-Hsin and Sikora, Thomas and Knorr, Sabastian and Sjöström, Mårten},
+  title     = {3D SMoE Splatting},
+  journal   = {Electronic Imaging},
+  year      = {2025},
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            We thank authors of Nerfies for opensourcing their website template. Link to their: <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+
+<script>
+  function updateImages(bitrate) {
+    // Update image sources based on selected bitrate
+    document.getElementById('bikesOurs').src = `./static/images/ours1_bit${bitrate}.png?${new Date().getTime()}`;
+    document.getElementById('bikesGT').src = `./static/images/gt1_bit${bitrate}.png?${new Date().getTime()}`;
+ 
+    document.getElementById('dangerOurs').src = `./static/images/ours2_bit${bitrate}.png?${new Date().getTime()}`;
+    document.getElementById('dangerGT').src = `./static/images/gt2_bit${bitrate}.png?${new Date().getTime()}`;
+ 
+    // Add similar lines for Fountain and Pillars images
+    document.getElementById('fountainOurs').src = `./static/images/ours3_bit${bitrate}.png?${new Date().getTime()}`;
+    document.getElementById('fountainGT').src = `./static/images/gt3_bit${bitrate}.png?${new Date().getTime()}`;
+ 
+    document.getElementById('pillarsOurs').src = `./static/images/ours4_bit${bitrate}.png?${new Date().getTime()}`;
+    document.getElementById('pillarsGT').src = `./static/images/gt4_bit${bitrate}.png?${new Date().getTime()}`;
+  }
+</script>
+
+</html>
