@@ -1,4 +1,4 @@
-# 2D Gaussian Splatting for Geometrically Accurate Radiance Fields
+# 3D SMoE Splatting for Edge-aware Realtime Radiance Field Rendering
 
 [Project page](https://yihsinli.github.io/3D-SMoE-Splatting/) | [Paper](coming soon) | [Video](coming soon) | <br>
 
