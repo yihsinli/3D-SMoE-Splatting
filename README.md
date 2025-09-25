@@ -66,7 +66,7 @@ This project is built upon [3DGS](https://github.com/graphdeco-inria/gaussian-sp
 ## Citation
 If you find our code or paper helps, please consider citing:
 ```bibtex
-@inproceedings{Huang2DGS2024,
+@inproceedings{Li3DSMoE2025,
     title={3D SMoE Splatting for Edge-aware Realtime Radiance Field Rendering},
     author={Li, Yi-Hsin and Sikora, Thomas and Knorr, Sebastian and Sjöström, Mårten},
     publisher = {Association for Computing Machinery},
