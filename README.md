@@ -1,6 +1,6 @@
 # 3D SMoE Splatting for Edge-aware Realtime Radiance Field Rendering
 
-[Project page](https://yihsinli.github.io/3D-SMoE-Splatting/) | [Paper](https://dl.acm.org/doi/10.1145/3757377.3763899) | [Video](coming soon) | <br>
+[Project page](https://yihsinli.github.io/3D-SMoE-Splatting/) | [Paper](https://dl.acm.org/doi/10.1145/3757377.3763899) | [Video](https://dl.acm.org/doi/10.1145/3757377.3763899#supplementary-materials) | <br>
 
 ![Teaser image](assets/representive_image.jpg)
 
