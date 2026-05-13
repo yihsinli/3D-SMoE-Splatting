@@ -24,10 +24,10 @@ All experiments reported in the paper were conducted on the following platform:
 
 Average training time on the reference platform:
 
-| Regime | Training Time |
-|---------|----------------|
-| Low-rate regime | ~10 min |
-| High-rate regime | ~25 min |
+| Regime | Training Time | Inference Time |
+|---------|----------------|----------------|
+| Low-rate regime | ~10 min | ~311 FPS
+| High-rate regime | ~25 min | ~103 FPS
 
 ### Inference Performance
 
