@@ -91,10 +91,8 @@ Table I is obtained directly from the accumulated entries in results.json, where
 
 Output Directory Structure
 ```
-<output_path>/
-├── test/
-└── all_results/
-    └── results.json
+all_results/
+  └── results.json
 ```
 The file is created and updated automatically during training if it does not exist.
 
