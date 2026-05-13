@@ -29,12 +29,6 @@ Average training time on the reference platform:
 | Low-rate regime | ~10 min | ~311 FPS
 | High-rate regime | ~25 min | ~103 FPS
 
-### Inference Performance
-
-Using pretrained models on the reference platform:
-
-- High-rate regime: ~103 FPS
-- Low-rate regime: ~311 FPS
 
 ### Pretrained Models
 
