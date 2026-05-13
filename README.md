@@ -136,14 +136,13 @@ Download them from:
 https://drive.google.com/drive/folders/13Fsx7zEgROhQW3RPiEaxnyDF9GJflFV2?usp=drive_link
 
 After downloading, the data should follow the structure below:
-
+```
 <scene>/
 └── point_cloud/
   └── iteration_30000/
     └── point_cloud.ply
 ├── ...
-
----
+```
 
 ### Rendering with Pretrained Models
 
