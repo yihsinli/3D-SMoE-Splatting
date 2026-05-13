@@ -90,11 +90,12 @@ No separate evaluation script or post-processing is required.
 Table I is obtained directly from the accumulated entries in results.json, where each scene contributes one result entry.
 
 Output Directory Structure
+```
 <output_path>/
 ├── test/
 └── all_results/
     └── results.json
-
+```
 The file is created and updated automatically during training if it does not exist.
 
 
