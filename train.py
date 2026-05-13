@@ -166,7 +166,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
 
         makedirs(render_path, exist_ok=True)
         makedirs(gts_path, exist_ok=True)
-
+        makedirs('all_results', exist_ok=True)
         ssims = []
         psnrs = []
         lpipss = []
@@ -216,6 +216,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
                                                     "PSNR": {name: psnr for psnr, name in zip(torch.tensor(psnrs).tolist(), image_names)},
                                                     "LPIPS": {name: lp for lp, name in zip(torch.tensor(lpipss).tolist(), image_names)}})
 
+        
         with open('all_results' + "/results.json", 'a') as fp:
             json.dump(full_dict, fp, indent=True)
         with open('all_results' + "/per_view.json", 'a') as fp:
