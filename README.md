@@ -29,6 +29,26 @@ Average training time on the reference platform:
 | Low-rate regime | ~10 min |
 | High-rate regime | ~25 min |
 
+### Inference Performance
+
+Using pretrained models on the reference platform:
+
+- High-rate regime: ~103 FPS
+- Low-rate regime: ~311 FPS
+
+### Pretrained Models
+
+Pretrained checkpoints are provided to enable reproduction of results without retraining.
+
+They can be downloaded from:
+
+https://drive.google.com/drive/folders/13Fsx7zEgROhQW3RPiEaxnyDF9GJflFV2?usp=drive_link
+
+These pretrained models correspond to the final optimized state (iteration 30000) for each scene and are required for rendering and metric evaluation.
+
+The full reproduction pipeline is structured in the following sections:
+training and testing (Table I) → rendering → Reproducing Rendered Results and Metrics (Pretrained Model)
+
 ### Additional Tested Configuration
 
 The code has also been tested on:
@@ -37,6 +57,9 @@ The code has also been tested on:
 - CUDA: 12.2
 - Python: 3.8
 - PyTorch: 2.0.1
+
+
+
 
 ## Installation
 
