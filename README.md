@@ -40,8 +40,8 @@ https://drive.google.com/drive/folders/13Fsx7zEgROhQW3RPiEaxnyDF9GJflFV2?usp=dri
 
 These pretrained models correspond to the final optimized state (iteration 30000) for each scene and are required for rendering and metric evaluation.
 
-The full reproduction pipeline is structured in the following sections:
-training and testing (Table I) → rendering → Reproducing Rendered Results and Metrics (Pretrained Model)
+The full reproduction details are provided in the section below:  
+**Reproducing Rendered Results and Metrics (Pretrained Model)**
 
 ### Additional Tested Configuration
 
