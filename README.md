@@ -6,6 +6,10 @@
 
 This repository provides the official implementation of the paper “3D SMoE Splatting for Edge-aware Realtime Radiance Field Rendering.” The method represents a scene using a set of Gaussian density functions and incorporates compression and densification techniques to improve compactness and efficiency.
 
+## Erratum
+
+Eq. (24) in the supplementary material contains an indexing error in the derivative. The implementation released in this repository uses the correct derivative, and the error does not affect the reported results.
+
 ## Reproducibility
 
 This repository provides scripts and pretrained models to reproduce representative results from the paper.
